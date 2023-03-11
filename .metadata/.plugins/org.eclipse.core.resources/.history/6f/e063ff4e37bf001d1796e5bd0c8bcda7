@@ -1,0 +1,10 @@
+package jsfw.src.main.java.uiwrappers;
+
+
+public class UIWrappers {
+
+	public UIWrappers(WebElement element, WebDriver driver) {
+		//PageFactory.initElements(driver, this);
+	}
+
+}

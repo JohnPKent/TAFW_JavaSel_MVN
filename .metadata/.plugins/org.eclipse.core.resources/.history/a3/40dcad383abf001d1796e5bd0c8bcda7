@@ -1,0 +1,12 @@
+package jsfw.src.main.java.uiwrappers;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class UIWrappers {
+
+	public UIWrappers(WebDriver driver) {
+		//PageFactory.initElements(driver, this);
+	}
+
+}

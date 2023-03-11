@@ -1,0 +1,127 @@
+package com.simplytesting.jsfw;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
+
+import com.simplytesting.jsfw.base.TestRun;
+import com.simplytesting.jsfw.pages.AccommodationPage;
+import com.simplytesting.jsfw.pages.CookieBox;
+import com.simplytesting.jsfw.pages.HolidayDatesAndPricesPage;
+import com.simplytesting.jsfw.pages.HolidayPage;
+import com.simplytesting.jsfw.pages.MenuToolbarPage;
+import com.simplytesting.jsfw.pages.PassengerDetailsPage;
+import com.simplytesting.jsfw.pages.SearchResultsPage;
+
+public class Q1UITest extends TestRun {
+	private MenuToolbarPage menuToolbarPage = new MenuToolbarPage();
+	private CookieBox cookieBox;
+	private SearchResultsPage searchResultsPage;
+	private HolidayDatesAndPricesPage holidayDatesAndPricesPage;
+	private HolidayPage holidayPage;
+	private AccommodationPage accommodationPage;
+	private PassengerDetailsPage passengerDetailsPage;
+
+	public Q1UITest(){
+		super();
+		
+	}
+	@BeforeMethod
+	public void beforeMethod() {
+		initialise();
+	}
+
+
+	@AfterMethod
+	public void tearDown(){
+		driver.quit();
+	}
+
+	///////////////////////////////////////////////////////////////
+	//Tests
+	///////////////////////////////////////////////////////////////
+	@Test(priority=1)
+	public void question1Test(){
+		float pricePerPerson;
+		float pricePerPersonExtra;
+		float priceTotal;
+		String sPricePerPerson;
+		String sPricePerPersonExtra;
+		String sPriceTotal;
+
+//			Link: https://www.mailtravel.co.uk/
+//			1.	Go to Mailtravel.co.uk page, verify the title
+//			2.	In the Search box, type India
+//			3.	Click More Info on “India 11Days - Classic Escorted Tours £1749”  
+//			4.	Make sure it’s displaying days, price, and telephone number
+//			5.	Select your departure date and Click on Book Online
+//			6.	Click Continue
+//			7.	Select Double Room for 2 adults and continue
+//			8.	Fill passenger details and continue
+//			9.	Verify the payment amount as per the accommodation selected for 2 adults
+
+		//1.	Go to Mailtravel.co.uk page, verify the title
+		menuToolbarPage = new MenuToolbarPage();
+		Assert.assertEquals(menuToolbarPage.getHomePageTitle(), "Home Page | Mail Travel");
+		cookieBox = new CookieBox();
+		cookieBox.clickRejectAll();
+		
+		//2.	In the Search box, type India
+		searchResultsPage = menuToolbarPage.search("India");
+		
+		//3.	Click More Info on “India 11Days - Classic Escorted Tours £1749”  Note! minimum price has changed. Now 1,849
+		holidayPage = searchResultsPage.clickMoreInfoBTNForItemContains("11 Days - Classic Escorted Tours");
+		
+		//4.	Make sure it’s displaying days, price, and telephone number
+		Assert.assertEquals(holidayPage.getHolidayPageTitle(), "India | Mail Travel");
+		// This number changes but is always '0808 239'
+		Assert.assertEquals(holidayPage.getPricePinPrice(), "£1,849");
+		Assert.assertEquals(holidayPage.getPricePinNumberOfDays(), "11");
+		//There is a synchronisation issue here.  Phone number is reformated
+		//Doing workaround as running out of time.
+		TestRun.uiWrappers.waitMilliSecs(1000);
+		Assert.assertTrue(holidayPage.getPhoneNumber().contains("0808 239"));
+
+		//5.	Select your departure date and Click on Book Online
+		holidayDatesAndPricesPage = new HolidayDatesAndPricesPage();
+		Assert.assertTrue(holidayDatesAndPricesPage.verifyHolidayDatesAndPricesPage(), "Dates and Prices Page not displayed");
+		sPricePerPerson = holidayDatesAndPricesPage.getPrice();
+		pricePerPerson = Float.parseFloat(sPricePerPerson);
+		holidayDatesAndPricesPage.clickHolidayInCalendar();
+		holidayDatesAndPricesPage.selectAdultsChildren("2", "0");
+
+		//6.	Click Continue - Note this is now 'Book Online'
+		accommodationPage = holidayDatesAndPricesPage.clickOnlineBooking();
+		//7.	Select Double Room for 2 adults and continue
+		TestRun.uiWrappers.waitMilliSecs(10000);
+		sPricePerPersonExtra = accommodationPage.getDoubleSupplement();
+		pricePerPersonExtra = Float.parseFloat(sPricePerPersonExtra);
+		accommodationPage.selectDoubleSoleRoomType("1");
+		
+		//8.	Fill passenger details and continue
+		passengerDetailsPage = new PassengerDetailsPage();
+		passengerDetailsPage.setPassenger1Deatils();
+		passengerDetailsPage.setPassenger2Deatils();
+		passengerDetailsPage.setLeadContactDetails();
+		//9.	Verify the payment amount as per the accommodation selected for 2 adults
+		priceTotal = (pricePerPerson + pricePerPersonExtra)*2;
+		System.out.println("Price check=====================>");
+		System.out.println("Price per person= '" + sPricePerPerson + "'");
+		System.out.println("Supplement per person= '" + sPricePerPersonExtra + "'");
+		System.out.println("Total Price should be= '" + String.valueOf(priceTotal) + "'");
+
+
+		
+	}
+
+}
+
+

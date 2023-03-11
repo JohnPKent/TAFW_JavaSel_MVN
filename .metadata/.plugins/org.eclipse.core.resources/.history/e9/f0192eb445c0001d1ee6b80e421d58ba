@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Code est" verbose="1" preserve-order="true">
+
+    <test name="Q1UITest">
+        <packages>
+            <package name="com.simplytesting.jsfw.Q1UITest" />
+        </packages>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

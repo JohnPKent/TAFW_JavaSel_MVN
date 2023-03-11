@@ -1,0 +1,148 @@
+package com.simplytesting.jsfw.base;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+
+public class TestRun {
+	
+	public static WebDriver driver;
+	public static Properties prop;
+	public  static EventFiringWebDriver e_driver;
+	public static String driverPath;
+	
+	public static long PAGE_LOAD_TIMEOUT = 20;
+	public static long IMPLICIT_WAIT = 20;
+	static JavascriptExecutor js;
+	
+	public TestRun(){
+		try {
+			prop = new Properties();
+			String configPath = "\\src\\main\\java\\com\\simplytesting\\jsfw\\config\\config.properties";
+			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ configPath);
+			prop.load(ip);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		driverPath = System.getProperty("user.dir")+ "\\src\\main\\resources";
+	}
+	
+	
+	public static void initialise(){
+		String browserName = prop.getProperty("browser");
+		
+		if(browserName.equals("chrome")){
+			System.setProperty("webdriver.chrome.driver", driverPath + "\\chromedriver.exe");	
+			driver = new ChromeDriver(); 
+		}
+		else if(browserName.equals("FireFox")){
+			System.setProperty("webdriver.gecko.driver", driverPath + "\\geckodriver.exe");	
+			driver = new FirefoxDriver(); 
+		}
+				
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT, TimeUnit.SECONDS);
+		
+		driver.get(prop.getProperty("url"));
+	
+	}
+	
+	//UI Object Wrappers
+	//Just one included for this test
+	protected int ListSelectUsingText(WebElement elementObj, String textToSelect)
+	{ 
+	    WebElement selectedOption = null;
+	    String selectedOptionText = "";
+	    String sDataLower = textToSelect.toLowerCase();
+	    Boolean bFoundOption =false;
+	    List<WebElement>options;
+	    try
+	    {
+		    options = elementObj.findElements(By.tagName("option"));
+	        //logFile.write(SOURCE, "Number of items (options) found = '" + options.size() + "'");
+	        for (WebElement optionElement : options) {
+	            if (optionElement.getText().toLowerCase().equals(sDataLower))
+	            {
+	                //logFile.write(SOURCE, "Item found with matching text.  Clicking...");
+	                optionElement.click();
+	                bFoundOption = true;
+	                break;
+	            }
+	        }
+	    }
+	    catch(Exception e)
+	    {
+	        //logFile.write(SOURCE, "FAILURE: during getting options or during click.  Exception: '" + e.getMessage() + "'");
+	        return 50;
+	    }
+	    if (!bFoundOption)    {
+	        //Not Found so the text may be in the label attribute (as in select _ngcontent-c6):
+	       for (WebElement optionElement : options) {
+	            String sLabel = optionElement.getAttribute("label"); 
+	            if (sLabel.toLowerCase().equals(sDataLower))
+	            {
+	                //logFile.write(SOURCE, "Item found with matching label.  Clicking...");
+	                optionElement.click();
+	                bFoundOption = true;
+	                break;
+	            }
+	        }
+	        if (!bFoundOption)    {
+	            //logFile.write(SOURCE, "FAILURE: option not found: '" + sData + "'");
+	            return 30;
+	        }
+	    }
+	
+	    //Check Text Selected
+	    try
+	        {
+	        options = elementObj.findElements(By.tagName("option"));  // read again to eleminate stale element failure
+	
+	        for (WebElement optionElement : options) {
+	            if (optionElement.isSelected()) {
+	                selectedOption = optionElement;
+	                selectedOptionText = selectedOption.getText();
+	                break;
+	            }
+	        }
+	        if (selectedOptionText.toLowerCase().trim().equals(sDataLower))
+	        {
+				//logFile.write(SOURCE, "Success: SET to: "  + sData);
+			}
+//	        else if((boolean)selectedOption?.getAttribute("label").toLowerCase().trim().contains(sDataLower))
+		    else if((selectedOption != null) && (selectedOption.getAttribute("label").toLowerCase().trim().contains(sDataLower)))
+	        {
+				//logFile.write(SOURCE, "Success: SET to: "  + sData);
+	        }
+	        else
+	        {
+	            //logFile.write(SOURCE, "WARNING Set text to '" + sData + "' but is now '" + selectedOptionText + "'");
+	            return (1);
+	        }
+	    }catch(Exception e)
+	    {
+	        //logFile.write(SOURCE, "WARNING unable to check selected value.   Exception: '" + e.getMessage() + "'" );
+	        return (1);
+	    }
+		return 0;
+	}
+
+}
+
+

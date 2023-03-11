@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.openqa.selenium.JavascriptExecutor"/>
+    <fullyQualifiedTypeName name="com.simplytetsing.jsfw.pages.MenuToolbarPage"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.base.TestObj"/>
+    <fullyQualifiedTypeName name="com.simplytetsing.jsfw.pages.SearchResults"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.pages.CookieBox"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.pages.HolidayDatesAndPricesPage"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.pages.HolidayPage"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.By"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.WebElement"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.WebDriver"/>
+    <fullyQualifiedTypeName name="jsfw.src.main.java.uiwrappers.UIWrappers"/>
+    <fullyQualifiedTypeName name="org.testng.Assert"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.base.TestRun"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.WebDriverWait"/>
+    <fullyQualifiedTypeName name="org.openqa.selenium.support.ui.ExpectedConditions"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.pages.AccommodationPage"/>
+    <fullyQualifiedTypeName name="com.simplytesting.jsfw.pages.PassengerDetailsPage"/>
+</qualifiedTypeNameHistroy>

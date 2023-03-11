@@ -1,0 +1,43 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestObj;
+
+public class HolidayDatesAndPricesPage extends TestObj{
+	//////////////////////////////////////////////
+	//Searchbar
+	//////////////////////////////////////////////
+	@FindBy(id = "dates_and_prices_title")
+	WebElement datesAndPricesTitle;
+
+	@FindBy(xpath = "//div[contains(text(), \"Search for your dream holiday\")]/..")
+	WebElement searchButton;
+
+	//////////////////////////////////////////////
+	//Menus
+	//////////////////////////////////////////////
+	@FindBy(xpath = "//a[contains(text(),'Holiday Types')]")
+	WebElement menuHolidayTypes;
+	
+	@FindBy(xpath = "//a[contains(text(),'Inspiration')]")
+	WebElement menuInspiration;
+	
+	@FindBy(xpath = "//a[contains(text(),'Special Offers')]")
+	WebElement menuSpecialOffers;
+	
+	
+	//////////////////////////////////////////////
+	//Constructor - initialise elements
+	//////////////////////////////////////////////
+	public HolidayDatesAndPricesPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	public boolean verifyDatesAndPricesPage(){
+		return datesAndPricesTitle.isDisplayed();
+	}
+
+}

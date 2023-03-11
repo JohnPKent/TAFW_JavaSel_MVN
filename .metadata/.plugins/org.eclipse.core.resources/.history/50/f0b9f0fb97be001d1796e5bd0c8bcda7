@@ -1,0 +1,51 @@
+package com.simplytesting.jsfw;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
+
+import com.simplytesting.jsfw.base.TestObj;
+import com.simplytesting.jsfw.pages.MenuToolbarPage;
+import com.simplytesting.jsfw.pages.SearchResultsPage;
+
+public class Q1UITest extends TestObj {
+	private MenuToolbarPage menuToolbarPage;
+	private SearchResultsPage searchResultsPage;
+
+	public Q1UITest(){
+		super();
+		
+	}
+	@BeforeMethod
+	public void beforeMethod() {
+		initialise();
+	}
+
+
+	@AfterMethod
+	public void tearDown(){
+		driver.quit();
+	}
+
+	///////////////////////////////////////////////////////////////
+	//Tests
+	///////////////////////////////////////////////////////////////
+	@Test(priority=1)
+	public void question1Test(){
+		MenuToolbarPage menuToolbarPage = new MenuToolbarPage();
+		//Assert.assertTrue(menuToolbarPage.verifyContactsLabel(), "contacts label is missing on the page");
+		searchResultsPage = menuToolbarPage.search("India");
+		//Assert.assertTrue(menuToolbarPage.verifyContactsLabel(), "contacts label is missing on the page");
+	}
+
+}
+
+

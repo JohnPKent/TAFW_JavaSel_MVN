@@ -1,0 +1,135 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestRun;
+
+public class PassengerDetailsPage extends TestRun{
+	////////////////////////////////////////////////////////////////
+	//Passenger 1
+	////////////////////////////////////////////////////////////////
+	@FindBy(id = "pax-a-title-1")
+	WebElement passenger1Title;
+
+	@FindBy(id = "pax-a-first-1")
+	WebElement passenger1FirstName;
+
+	@FindBy(id = "pax-a-last-1")
+	WebElement passenger1LastName;
+
+	@FindBy(id = "pax-a-dobd-1")
+	WebElement passenger1DOBDay;
+
+	@FindBy(id = "pax-a-dobm-1")
+	WebElement passenger1DOBMonth;
+
+	@FindBy(id = "pax-a-doby-1")
+	WebElement passenger1DOBYear;
+
+	////////////////////////////////////////////////////////////////
+	//Passenger 2
+	////////////////////////////////////////////////////////////////
+	@FindBy(id = "pax-a-title-2")
+	WebElement passenger2Title;
+
+	@FindBy(id = "pax-a-first-2")
+	WebElement passenger2FirstName;
+
+	@FindBy(id = "pax-a-last-2")
+	WebElement passenger2LastName;
+
+	@FindBy(id = "pax-a-dobd-2")
+	WebElement passenger2DOBDay;
+
+	@FindBy(id = "pax-a-dobm-2")
+	WebElement passenger2DOBMonth;
+
+	@FindBy(id = "pax-a-doby-2")
+	WebElement passenger2DOBYear;
+
+	////////////////////////////////////////////////////////////////
+	//Lead Contact
+	////////////////////////////////////////////////////////////////
+	@FindBy(id = "contact-name")
+	WebElement contactName;
+
+	@FindBy(id = "contact-mobile")
+	WebElement contactMobile;
+
+	@FindBy(id = "contact-email")
+	WebElement contactEmail;
+
+	@FindBy(id = "contact-address1")
+	WebElement contactAddressLine1;
+
+	@FindBy(id = "contact-address2")
+	WebElement contactAddressLine2;
+
+	@FindBy(id = "contact-city")
+	WebElement contactAddressCity;
+
+	@FindBy(id = "contact-postcode")
+	WebElement contactAddressPostcode;
+
+	@FindBy(id = "contact-country")
+	WebElement contactAddressCountry;
+
+	@FindBy(id = "contact-hearabout")
+	WebElement whereDidYouHearAboutUs;
+
+	@FindBy(id = "//div[@id= 'paxform-select']/button")
+	WebElement continueButton;
+
+	
+	//////////////////////////////////////////////
+	//Constructor - initialise elements
+	//////////////////////////////////////////////
+	public PassengerDetailsPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	public String getPassengerDetailsPageTitle(){
+		return driver.getTitle().trim();
+	}
+
+	public void selectPassenger1Title(String title){
+		TestRun.uiWrappers.listSelectUsingText(passenger1Title, title);
+	}
+
+	public void setPassenger1Deatils(){
+		TestRun.uiWrappers.listSelectUsingText(passenger1Title, "Mr");
+		TestRun.uiWrappers.enterText(passenger1FirstName, "Fred");
+		TestRun.uiWrappers.enterText(passenger1LastName, "Teletubby");
+		TestRun.uiWrappers.listSelectUsingText(passenger1DOBDay, "22");
+		TestRun.uiWrappers.listSelectUsingText(passenger1DOBMonth, "March");
+		TestRun.uiWrappers.listSelectUsingText(passenger1DOBYear, "1990");
+	}
+	
+	public void setPassenger2Deatils(){
+		TestRun.uiWrappers.listSelectUsingText(passenger2Title, "Mrs");
+		TestRun.uiWrappers.enterText(passenger2FirstName, "Freda");
+		TestRun.uiWrappers.enterText(passenger2LastName, "Teletubby");
+		TestRun.uiWrappers.listSelectUsingText(passenger2DOBDay, "2");
+		TestRun.uiWrappers.listSelectUsingText(passenger2DOBMonth, "April");
+		TestRun.uiWrappers.listSelectUsingText(passenger2DOBYear, "1991");
+	}
+
+	public void setLeadContactDetails(){
+		TestRun.uiWrappers.enterText(contactName, "Fred Teletubby");
+		TestRun.uiWrappers.enterText(contactMobile, "07971 7777 77");
+		TestRun.uiWrappers.enterText(contactEmail, "Fred.Teletubby@teletubs.com");
+		TestRun.uiWrappers.enterText(contactAddressLine1, "Hill House");
+		TestRun.uiWrappers.enterText(contactAddressLine2, "On the Telly");
+		TestRun.uiWrappers.enterText(contactAddressCity, "TbubsVille");
+		TestRun.uiWrappers.enterText(contactAddressPostcode, "GU21 7TY");
+		TestRun.uiWrappers.listSelectUsingText(contactAddressCountry, "United States");
+		TestRun.uiWrappers.listSelectUsingText(whereDidYouHearAboutUs, "In Paper");
+	}
+
+	public void clickContinue(){
+		TestRun.uiWrappers.click(continueButton);
+	}
+
+}

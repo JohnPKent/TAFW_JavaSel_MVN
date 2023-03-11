@@ -1,0 +1,48 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestObj;
+
+public class HolidayPage extends TestObj{
+	@FindBy(id = "dates_and_prices_title")
+	WebElement datesAndPricesTitle;
+
+	@FindBy(xpath = "//a[@id='supplier-phone']")
+	WebElement phoneNumber;
+
+	@FindBy(xpath = "//div[@id=\"price-pin_pin-wrapper\"]//span[contains(@id, 'days-num')]")
+	WebElement pricePinNumberOfDays;
+
+	@FindBy(xpath = "//div[@id=\"price-pin_pin-wrapper\"]//span[@class='ibecurr']")
+	WebElement pricePinFromPrice;
+
+	//////////////////////////////////////////////
+	//Constructor - initialise elements
+	//////////////////////////////////////////////
+	public HolidayPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	//////////////////////////////////////////////
+	//Actions
+	//////////////////////////////////////////////
+	public String getHolidayPageTitle(){
+		return driver.getTitle();
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber.getText();
+	}
+
+	public String getPricePinNumberOfDays() {
+		return pricePinNumberOfDays.getText();
+	}
+
+	public String getPricePinFromPrice() {
+		return pricePinFromPrice.getText();
+	}
+
+}

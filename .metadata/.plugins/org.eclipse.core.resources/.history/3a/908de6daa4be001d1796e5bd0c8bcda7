@@ -1,0 +1,59 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestObj;
+
+public class HolidayPage extends TestObj{
+	@FindBy(id = "dates_and_prices_title")
+	WebElement datesAndPricesTitle;
+
+	//////////////////////////////////////////////
+	//Calendar
+	//////////////////////////////////////////////
+	@FindBy(xpath = "//div[contains(@class,'calendar_next ')]")
+	WebElement nextMonthButton;
+
+	@FindBy(xpath = "///div[contains(@class,'calendar_previous ')]")
+	WebElement prevMonthButton;
+
+	
+	
+	@FindBy(name = "numAdults")
+	WebElement numAdults;
+
+	@FindBy(name = "numChildren")
+	WebElement numChildren;
+
+	@FindBy(xpath = "//div[@id='book-button']//button")
+	WebElement bookOnlineButton;
+
+	
+	
+	//////////////////////////////////////////////
+	//Menus
+	//////////////////////////////////////////////
+	@FindBy(xpath = "//a[contains(text(),'Holiday Types')]")
+	WebElement menuHolidayTypes;
+	
+	@FindBy(xpath = "//a[contains(text(),'Inspiration')]")
+	WebElement menuInspiration;
+	
+	@FindBy(xpath = "//a[contains(text(),'Special Offers')]")
+	WebElement menuSpecialOffers;
+	
+	
+	//////////////////////////////////////////////
+	//Constructor - initialise elements
+	//////////////////////////////////////////////
+	public HolidayPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	public String verifyHolidayPageTitle(){
+		return driver.getTitle();
+	}
+
+}

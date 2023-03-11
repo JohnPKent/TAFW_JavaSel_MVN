@@ -1,0 +1,5 @@
+package com.simplytesting.jsfw.base;
+
+public class TestObj {
+
+}

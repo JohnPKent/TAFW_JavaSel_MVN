@@ -1,0 +1,7 @@
+package com.simplytesting.jsfw.pages;
+
+import com.simplytesting.jsfw.base.TestObj;
+
+public class HolidayDatesAndPricesPage extends TestObj{
+
+}

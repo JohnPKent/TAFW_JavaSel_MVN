@@ -1,0 +1,31 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+//import org.openqa.selenium.interactions.Actions;
+//import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestObj;
+
+public class SearchResultsPage extends TestObj{
+	
+		//////////////////////////////////////////////
+		//Constructor - initialise elements
+		//////////////////////////////////////////////
+		public SearchResultsPage() {
+			PageFactory.initElements(driver, this);
+		}
+		
+		public String verifyHomePageTitle(){
+			return driver.getTitle();
+		}
+		
+		public HolidayDatesAndPricesPage clickResultItemContains(String resultItemText) {
+			String xpathLocator = "//span[contains(text(),'"+ resultItemText + "')]/../..";
+			driver.findElement(By.xpath(xpathLocator)).click();
+			return new HolidayDatesAndPricesPage();
+		}
+		
+}

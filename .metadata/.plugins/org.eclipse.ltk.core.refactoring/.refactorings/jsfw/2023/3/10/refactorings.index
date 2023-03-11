@@ -1,0 +1,41 @@
+1678306309688	Rename package 'pages'
+1678306324914	Rename package 'config'
+1678306340257	Rename package 'utils'
+1678306419259	Delete element
+1678373267263	Rename type 'YesyUtils'
+1678373872381	Delete element
+1678373877192	Delete element
+1678374039650	Rename type 'NewTest'
+1678375249050	Copy compilation unit
+1678375630538	Rename type 'MailTravelHomePage'
+1678376247146	Rename type 'SearchResults'
+1678376634123	Rename method 'initialization'
+1678377679787	Rename package 'com.simplytetsing.jsfw.config'
+1678377694277	Rename package 'com.simplytetsing.jsfw.pages'
+1678379068152	Delete element
+1678383807961	Copy compilation unit
+1678384953420	Rename method 'verifyPhoneNumber'
+1678384984559	Rename method 'verifyHolidayDatesAndPricesPage'
+1678385192253	Rename method 'getPricePinFromPrice'
+1678385356095	Rename method 'verifyHomePageTitle'
+1678385723038	Rename method 'getHolidayDatesAndPricesPage'
+1678442316161	Delete element
+1678447093182	Rename type 'TestObj'
+1678448439062	Rename local variable 'sTitle'
+1678448462338	Rename local variable 'sJavaScriptCode'
+1678448486357	Rename local variable 'sReadyState'
+1678448504866	Rename local variable 'PageReadyState'
+1678448529198	Rename local variable 'iIFramesCount'
+1678448555517	Rename local variable 'iJQueryActive'
+1678448573719	Rename local variable 'bJQueryPresent'
+1678448584867	Rename local variable 'bAjaxLoading'
+1678450207276	Rename local variable 'nextMonthButton'
+1678450217938	Rename local variable 'selector'
+1678450268564	Rename local variable 'elementObj'
+1678450938108	Rename local variable 'selector'
+1678451668943	Rename method 'ListSelectUsingText'
+1678464182018	Rename type 'Accommodation'
+1678469701007	Copy compilation unit
+1678469780578	Rename method 'verifyAccommodationPage'
+1678490653773	Rename method 'selectDoubleSoleRoomType'
+1678564604937	Move 'testng.xml' to 'resources'

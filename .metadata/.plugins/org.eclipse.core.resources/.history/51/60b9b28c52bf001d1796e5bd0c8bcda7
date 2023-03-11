@@ -1,0 +1,61 @@
+package com.simplytesting.jsfw.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.simplytesting.jsfw.base.TestRun;
+
+public class HolidayDatesAndPricesPage extends TestRun{
+	@FindBy(id = "dates_and_prices_title")
+	WebElement datesAndPricesTitle;
+
+	//////////////////////////////////////////////
+	//Calendar
+	//////////////////////////////////////////////
+	@FindBy(xpath = "//div[contains(@class,'calendar_next ')]")
+	WebElement nextMonthButton;
+
+	@FindBy(xpath = "//div[contains(@class,'calendar_previous ')]")
+	WebElement prevMonthButton;
+
+	@FindBy(xpath = "//div[contains(@class, 'calendar_price')]/following-siblingdiv/input"); 
+	WebElement holidayCalendarSelection;
+	
+	@FindBy(name = "numAdults")
+	WebElement numAdults;
+
+	@FindBy(name = "numChildren")
+	WebElement numChildren;
+
+	@FindBy(xpath = "//div[@id='book-button']//button")
+	WebElement bookOnlineButton;
+
+
+	//////////////////////////////////////////////
+	//Constructor - initialise elements
+	//////////////////////////////////////////////
+	public HolidayDatesAndPricesPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+	public boolean verifyHolidayDatesAndPricesPage(){
+		return TestRun.uiWrappers.elementExists(datesAndPricesTitle);
+	}
+
+	public boolean clickHolidayInCalendar(){
+		//Note this should be refactored to allow selection of any day/month
+		//nextMonthButton.
+		TestRun.uiWrappers.scrollToElement(nextMonthButton);
+		TestRun.uiWrappers.click(nextMonthButton);
+		TestRun.uiWrappers.click(nextMonthButton);
+		TestRun.uiWrappers.click(nextMonthButton);
+		
+		TestRun.uiWrappers.listSelectUsingText(numAdults, "2");
+		TestRun.uiWrappers.listSelectUsingText(numChildren, "0");
+		
+		bookOnlineButton.click();
+		
+		return true;
+	}
+}

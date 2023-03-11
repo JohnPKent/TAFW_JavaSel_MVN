@@ -1,0 +1,279 @@
+package jsfw.src.main.java.uiwrappers;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import com.simplytesting.jsfw.base.TestRun;
+
+public class UIWrappers {
+	private WebDriver driver;
+
+	public UIWrappers(WebDriver driver) {
+		this.driver = driver;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//UI Object Wrappers put here due to time constraints
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public String text(By selector)	{
+		String selectorName = selector.toString();
+		String textFound = "";
+		String msg = "Get Text from: element '" + selectorName + "'";
+		System.console().printf( msg);
+		
+		try	{
+			if (pageSynchronisation().equals("ERROR")) {
+				System.console().printf("WARNING: Page Sync issues.  Attempting to continue");
+			}
+			textFound = driver.findElement(selector).getText();
+		}catch (Exception e)	{
+			msg = "Resut=FAIL: Exception: " + e.getMessage();
+			System.console().printf(msg);
+			Assert.fail(msg);
+			
+		}
+		System.console().printf("Resut=PASS: text found: '" + textFound + "'");
+		return textFound;
+	}
+
+	protected int ListSelectUsingText(WebElement elementObj, String textToSelect)
+	{ 
+	    WebElement selectedOption = null;
+	    String selectedOptionText = "";
+	    String sDataLower = textToSelect.toLowerCase();
+	    Boolean bFoundOption =false;
+	    List<WebElement>options;
+	    try
+	    {
+		    options = elementObj.findElements(By.tagName("option"));
+	        System.console().printf("Number of items (options) found = '" + options.size() + "'");
+	        for (WebElement optionElement : options) {
+	            if (optionElement.getText().toLowerCase().equals(sDataLower))
+	            {
+	                System.console().printf("Item found with matching text.  Clicking...");
+	                optionElement.click();
+	                bFoundOption = true;
+	                break;
+	            }
+	        }
+	    }
+	    catch(Exception e)
+	    {
+	        System.console().printf("FAILURE: during getting options or during click.  Exception: '" + e.getMessage() + "'");
+	        return 50;
+	    }
+	    if (!bFoundOption)    {
+	        //Not Found so the text may be in the label attribute (as in select _ngcontent-c6):
+	       for (WebElement optionElement : options) {
+	            String sLabel = optionElement.getAttribute("label"); 
+	            if (sLabel.toLowerCase().equals(sDataLower))
+	            {
+	                System.console().printf("Item found with matching label.  Clicking...");
+	                optionElement.click();
+	                bFoundOption = true;
+	                break;
+	            }
+	        }
+	        if (!bFoundOption)    {
+				System.console().printf("FAILURE: option not found: '" + textToSelect + "'");
+	            return 30;
+	        }
+	    }
+	
+	    //Check Text Selected
+	    try
+	        {
+	        options = elementObj.findElements(By.tagName("option"));  // read again to eleminate stale element failure
+	
+	        for (WebElement optionElement : options) {
+	            if (optionElement.isSelected()) {
+	                selectedOption = optionElement;
+	                selectedOptionText = selectedOption.getText();
+	                break;
+	            }
+	        }
+	        if (selectedOptionText.toLowerCase().trim().equals(sDataLower))
+	        {
+				System.console().printf("Success: SET to: "  + textToSelect);
+			}
+//	        else if((boolean)selectedOption?.getAttribute("label").toLowerCase().trim().contains(sDataLower))
+		    else if((selectedOption != null) && (selectedOption.getAttribute("label").toLowerCase().trim().contains(sDataLower)))
+	        {
+				System.console().printf("Success: SET to: "  + textToSelect);
+	        }
+	        else
+	        {
+	            System.console().printf("WARNING Set text to '" + textToSelect + "' but is now '" + selectedOptionText + "'");
+	            return (1);
+	        }
+	    }catch(Exception e)
+	    {
+	        System.console().printf("WARNING unable to check selected value.   Exception: '" + e.getMessage() + "'" );
+	        return (1);
+	    }
+		return 0;
+	}
+
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Synchronisation
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public String pageSynchronisation() throws InterruptedException	 {
+        //=====================================================
+        //Check Page readyState
+        //=====================================================
+        int i;
+        long iFramesCount = 0;
+        String javascriptCode;
+        String pageTitle = null;
+        String pageReadyState = "";
+
+        JavascriptExecutor jsEx = ((JavascriptExecutor)driver); 
+
+        //=====================================================
+        //Page readyState
+        //=====================================================
+        for (i = 1; i < 10; i++)
+        {
+            try
+            {
+                pageReadyState = (String)jsEx.executeScript("return document.readyState");
+            }
+            catch (Exception exp)
+            {
+                System.console().printf("Problem with JavaScript getting document.readyState.  Error=" + exp.getMessage());
+	            return ("ERROR");
+            }
+            System.console().printf("Readystate of page=" + pageReadyState);
+            //sReadyState will be null if ExecuteScript fails first time (can have error: System.InvalidOperationException: Session not started or terminated)
+            if ((pageReadyState != null) && (pageReadyState.equals("complete")))
+            {
+                break;
+            }
+			Thread.sleep(2000);
+        }
+        if ((pageReadyState != null) && !(pageReadyState.equals("complete")))
+        {
+            System.console().printf("FAILURE: Page ReadyState did not reach 'complete");
+            return ("ERROR");
+        }
+
+        //=====================================================
+        //Get Page Title
+        //=====================================================
+        try
+        {
+        	pageTitle = (String)jsEx.executeScript("return document.title");
+        }
+        catch (Exception exp)
+        {
+            System.console().printf("Problem with executing JavaScript to get doc title.  Error=" + exp.getMessage());
+        }
+        System.console().printf("Title of page=" + pageTitle);
+
+        //===========================================================================================================================
+        //Check All Frames readyState
+        //===========================================================================================================================
+        try
+        {
+	        javascriptCode = "return(top.frames.length)";
+	        iFramesCount = (long)jsEx.executeScript(javascriptCode);
+            System.console().printf("Number of IFrames=" + Long.toString(iFramesCount));
+        }
+        catch (Exception exp)
+        {
+            System.console().printf("WARNING on getting frame count: " + exp.toString());
+        } 
+
+        try
+        {
+            for ( i= 0; i<iFramesCount; i++)
+            {
+                pageTitle = "";
+                pageReadyState = "";
+                // switch to every frame
+                driver.switchTo().frame(i);
+                javascriptCode = "return (document.title)";
+                pageTitle = (String)jsEx.executeScript(javascriptCode);
+                javascriptCode = "document.readyState";
+                pageReadyState = (String)jsEx.executeScript(javascriptCode);
+                System.console().printf("iFrame Title=" + pageTitle);
+                System.console().printf("iFrame ReadyState=" + pageReadyState);
+                driver.switchTo().defaultContent();
+            }
+        }
+        catch (Exception ex)
+        {
+            pageTitle = "Unknown";
+            System.console().printf("WARNING on getting frame readyState: " + ex.toString());
+        }
+        //Switch Back to main page
+        driver.switchTo().defaultContent();
+
+        //===========================================================================================================================
+        //Wait for JQuery.active == 0
+        //===========================================================================================================================
+        if(IsAJaxLoading() )
+        {
+            System.console().printf("JQuery is active after all iterations" );
+        }
+        return (" ");
+    }
+	private boolean IsAJaxLoading() throws InterruptedException
+	{
+        int i;
+        int jQueryActive;
+        boolean isJQueryPresent = false;
+        boolean isAjaxLoading = false;
+        JavascriptExecutor jsEx = ((JavascriptExecutor)driver); 
+
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); 
+		try
+        {
+            isJQueryPresent = (boolean)jsEx.executeScript("return !!window.jQuery");
+        }
+        catch(Exception e)
+        {
+	        System.console().printf("WARNING: Exception on JavaScript: 'return !!window.jQuery'.  Exception = " + e.getMessage());
+        }
+        if (isJQueryPresent)
+        { 
+            for (i = 1; i < 50; i++)
+            {
+                try
+                {
+                    jQueryActive = (int)jsEx.executeScript("return jQuery.active");
+                }
+                catch (Exception e)
+                {
+                    System.console().printf("Problem with JavaScript getting jQuery.active.  Problem=" + e.getMessage());
+                    jQueryActive = 0;
+                }
+			    if (jQueryActive ==0)
+			    {
+	                System.console().printf("JQuery.active==0");
+	                isAjaxLoading = false;
+                    break;
+			    }else
+			    {
+	                System.console().printf("JQuery.active=" + Integer.toString(jQueryActive));
+	                isAjaxLoading = true;
+			    }
+			    Thread.sleep(100);
+            }
+            System.console().printf("JQuery active complete at iteration =" + Integer.toString(i));
+        }else
+        {
+        	isAjaxLoading = false;
+        }
+	    driver.manage().timeouts().implicitlyWait(TestRun.IMPLICIT_WAIT, TimeUnit.SECONDS);
+        return(isAjaxLoading);
+	} 
+
+}
