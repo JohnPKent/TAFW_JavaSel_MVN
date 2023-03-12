@@ -35,6 +35,6 @@ Due to time constraints, this is not complete.  This is what is missing or wrong
 ### Steps to clone execute the tests
 ```
 git clone https://github.com/JohnPKent/TAFW_JavaSel_MVN.git
-cd TAFW_JavaSel_MVN
+cd TAFW_JavaSel_MVN\jsfw
 mvn test
 ```

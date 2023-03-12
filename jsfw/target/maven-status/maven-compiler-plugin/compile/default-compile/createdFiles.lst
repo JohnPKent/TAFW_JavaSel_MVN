@@ -1,0 +1,10 @@
+com\simplytesting\jsfw\pages\AccommodationPage.class
+com\simplytesting\jsfw\pages\HolidayDatesAndPricesPage.class
+com\simplytesting\jsfw\App.class
+com\simplytesting\jsfw\pages\HolidayPage.class
+com\simplytesting\jsfw\pages\PassengerDetailsPage.class
+com\simplytesting\jsfw\pages\CookieBox.class
+com\simplytesting\jsfw\pages\MenuToolbarPage.class
+jsfw\src\main\java\uiwrappers\UIWrappers.class
+com\simplytesting\jsfw\pages\SearchResultsPage.class
+com\simplytesting\jsfw\base\TestRun.class
